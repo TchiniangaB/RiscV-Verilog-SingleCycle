@@ -54,3 +54,4 @@ always @(posedge clk or posedge reset) begin
 end
     
 endmodule
+
