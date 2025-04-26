@@ -106,3 +106,11 @@ always @(*) begin
 end
     
 endmodule
+
+// Control Unit
+
+module moduleName (
+    ports
+);
+    
+endmodule
