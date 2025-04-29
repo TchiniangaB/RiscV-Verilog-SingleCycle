@@ -142,7 +142,7 @@ always @(Control_in or A or B) begin
     4'b0000 : begin zero <= 0; ALU_Result <= A & B; end
     4'b0001 : begin zero <= 0; ALU_Result <= A | B; end
     4'b0010 : begin zero <= 0; ALU_Result <= A + B; end
-    4'b0110 : begin if(A==B) zero <= 1; else zero <= 0; ALU_Result <= A - B; end
+    4'b0110 : begin if (A==B) zero <= 1; else zero <= 0; ALU_Result <= A - B; end
     endcase
 end
     
