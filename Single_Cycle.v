@@ -32,7 +32,7 @@ assign next_to_PC = from_PC + 4;
 endmodule
 
 // Instruction Memory
-module Instruction_Mem (
+module InstructionMem (
     clk, reset, read_address, instruction_out
 );
 
@@ -57,7 +57,7 @@ end
 endmodule
 
 // Register File 
-module Reg_File (
+module RegFile (
     clk, reset, reg_write, Rs1, Rs2, Rd, write_data, read_data1, read_data2
 );
 
@@ -108,9 +108,65 @@ end
 endmodule
 
 // Control Unit
-
-module moduleName (
-    ports
+module ControlUnit (
+    instruction, Branch, MemRead, MemtoReg, ALUOp, MemWrite, ALUSrc, RegWrite
 );
+
+input      [6:0] instruction;
+output reg [1:0] ALUOp;
+output reg       Branch, MemRead, MemtoReg, MemWrite, ALUSrc, RegWrite;
+
+always @(*) begin
+    case (instruction)
+    7'b0110011 : {ALUSrc, MemtoReg, RegWrite, MemRead, MemWrite, Branch, ALUOp} <= 8'b001000_01;
+    7'b0000011 : {ALUSrc, MemtoReg, RegWrite, MemRead, MemWrite, Branch, ALUOp} <= 8'b111100_00;
+    7'b0100011 : {ALUSrc, MemtoReg, RegWrite, MemRead, MemWrite, Branch, ALUOp} <= 8'b100010_00;
+    7'b1100011 : {ALUSrc, MemtoReg, RegWrite, MemRead, MemWrite, Branch, ALUOp} <= 8'b000001_01;
+    endcase
+end
+
+endmodule
+
+// ALU
+module ALU_unit (
+    A, B, Control_in, ALU_Result, zero
+);
+
+input      [31:0] A, B;
+input      [3:0]  Control_in;
+output reg        zero;
+output reg [31:0] ALU_Result;
+
+always @(Control_in or A or B) begin
+    case (Control_in)
+    4'b0000 : begin zero <= 0; ALU_Result <= A & B; end
+    4'b0001 : begin zero <= 0; ALU_Result <= A | B; end
+    4'b0010 : begin zero <= 0; ALU_Result <= A + B; end
+    4'b0110 : begin if(A==B) zero <= 1; else zero <= 0; ALU_Result <= A - B; end
+    endcase
+end
     
+endmodule
+
+// ALU Control
+module ALU_Control (
+    ALUOp, fun7, fun3, Control_out
+);
+
+input fun7;
+input [2:0] fun3;
+input [1:0] ALUOp;
+output reg [3:0] Control_out;
+
+always @(*) begin
+    case ({ALUOp, fun7, fun3})
+    6'b00_0_000 : Control_out <= 4'b0010;
+    6'b01_0_000 : Control_out <= 4'b0110;
+    6'b10_0_000 : Control_out <= 4'b0010;
+    6'b10_1_000 : Control_out <= 4'b0110;
+    6'b10_0_111 : Control_out <= 4'b0000;
+    6'b10_0_110 : Control_out <= 4'b0001;
+    endcase    
+end
+
 endmodule
