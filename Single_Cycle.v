@@ -153,9 +153,9 @@ module ALU_Control (
     ALUOp, fun7, fun3, Control_out
 );
 
-input fun7;
-input [2:0] fun3;
-input [1:0] ALUOp;
+input            fun7;
+input      [2:0] fun3;
+input      [1:0] ALUOp;
 output reg [3:0] Control_out;
 
 always @(*) begin
@@ -196,4 +196,38 @@ end
 
 assign MemData_out = (MemRead) ? D_Memory[read_address] : 32'b0;
     
+endmodule
+
+// Multiplexer 
+module Mux2to1 (
+    sel, A, B, Mux_Out
+);
+
+input         sel;
+input  [31:0] A, B;
+output [31:0] Mux_Out;
+
+assign Mux_Out = (sel == 1'b0) ? A : B;
+endmodule
+
+//AND
+module AND (
+    branch, zero, and_out
+);
+
+input branch, zero;
+output and_out;
+
+assign and_out = branch & zero;
+endmodule
+
+// Adder
+module Adder (
+    in1, in2, add_out
+);
+
+input  [31:0] in1, in2;
+output [31:0] add_out;
+
+assign add_out = in1 + in2;
 endmodule
