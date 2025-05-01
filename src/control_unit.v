@@ -1,0 +1,19 @@
+// Control Unit
+module control_unit (
+    instruction, Branch, MemRead, MemtoReg, ALUOp, MemWrite, ALUSrc, RegWrite
+);
+
+input      [6:0] instruction;
+output reg [1:0] ALUOp;
+output reg       Branch, MemRead, MemtoReg, MemWrite, ALUSrc, RegWrite;
+
+always @(*) begin
+    case (instruction)
+    7'b0110011 : {ALUSrc, MemtoReg, RegWrite, MemRead, MemWrite, Branch, ALUOp} <= 8'b001000_01;
+    7'b0000011 : {ALUSrc, MemtoReg, RegWrite, MemRead, MemWrite, Branch, ALUOp} <= 8'b111100_00;
+    7'b0100011 : {ALUSrc, MemtoReg, RegWrite, MemRead, MemWrite, Branch, ALUOp} <= 8'b100010_00;
+    7'b1100011 : {ALUSrc, MemtoReg, RegWrite, MemRead, MemWrite, Branch, ALUOp} <= 8'b000001_01;
+    endcase
+end
+
+endmodule
