@@ -1,12 +1,14 @@
 // ALU Control
 module ALU_control (
-    ALUOp, fun7, fun3, Control_out
+    ALUOp, instruction, Control_out
 );
 
-input            fun7;
-input      [2:0] fun3;
-input      [1:0] ALUOp;
-output reg [3:0] Control_out;
+input      [31:0] instruction;
+input      [1:0]  ALUOp;
+output reg [3:0]  Control_out;
+
+wire       fun7 = instruction[30];
+wire [2:0] fun3 = instruction[14:12];
 
 always @(*) begin
     case ({ALUOp, fun7, fun3})

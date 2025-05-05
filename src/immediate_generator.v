@@ -1,11 +1,12 @@
 // Immediate Generator 
 module imm_gen (
-    Opcode, instruction, ImmExt
+    instruction, ImmExt
 );
 
-input   [6:0]  Opcode;
-input   [31:0] instruction;
-output  [31:0] ImmExt;
+input  [31:0] instruction;
+output [31:0] ImmExt;
+
+wire [6:0] Opcode = instruction[6:0]
 
 always @(*) begin
     case (Opcode)
