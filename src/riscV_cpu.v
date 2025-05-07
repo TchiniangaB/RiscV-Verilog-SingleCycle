@@ -5,8 +5,7 @@ module top (
 
 input clk, reset;
 
-wire [31:0] PC_out, Instruction_out, ReadData1, ReadData2, ImmGen_out, MuxALU_out, 
-ALU_Adress_out MemData_out, RegFile_WriteData, PCAdder4_out, PCAdderGen_out, NextPC;
+wire [31:0] PC_out, Instruction_out, ReadData1, ReadData2, ImmGen_out, MuxALU_out, ALU_Adress_out, MemData_out, RegFile_WriteData, PCAdder4_out, PCAdderGen_out, NextPC;
 wire RegWrite, ALUSrc, MemRead, MemWrite, MemtoReg, Branch, Zero, BranchAndZero;
 wire [1:0] ALUOp;
 wire [3:0] ALUControl_out;
@@ -44,7 +43,7 @@ data_memory DataMemory(.clk(clk), .reset(reset), .MemWrite(MemWrite), .MemRead(M
 .write_data(ReadData2), .MemData_out(MemData_out));
 
 //Mux Register File
-Mux2to1 MuxALU(.sel(MemtoReg), .A(MemData_out), .B(ALU_Adress_out), .Mux_Out(RegFile_WriteData));
+Mux2to1 MuxRegFile(.sel(MemtoReg), .A(MemData_out), .B(ALU_Adress_out), .Mux_Out(RegFile_WriteData));
 
 //AND Branch & Zero
 AND_gate AndGate(.branch(Branch), .zero(Zero), .and_out(BranchAndZero));
