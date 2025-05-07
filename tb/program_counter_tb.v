@@ -24,7 +24,7 @@ initial begin
     #10 PC_in = 32'b0000000010100011110001000110011;
     #10 PC_in = 32'd12;
 
-    #50 $finish
+    #50 $finish;
 end
 
 always begin
