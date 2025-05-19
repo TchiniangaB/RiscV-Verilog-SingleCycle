@@ -5,7 +5,7 @@ module adder_tb;
 reg [31:0] in1, in2;
 wire [31:0] add_out;
 
-Adder adder(.in1(in1), .in2(in2), .add_out(add_out))
+Adder adder(.in1(in1), .in2(in2), .add_out(add_out));
 
 initial begin
     $dumpfile("adder_tb.vcd");
